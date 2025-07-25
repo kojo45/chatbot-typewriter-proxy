@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot with Typewriter Effect</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    #chat { max-width: 600px; margin: auto; }
+    #output { border: 1px solid #ccc; padding: 12px; min-height: 60px; margin-top: 12px; background: #fafafa; }
+    #input { width: 80%; padding: 8px; }
+    #send { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+  <div id="chat">
+    <h2>Chatbot</h2>
+    <input id="input" type="text" placeholder="Your question..." />
+    <button id="send">Send</button>
+    <div id="output"></div>
+  </div>
+  <script>
+    const input = document.getElementById('input');
+    const send = document.getElementById('send');
+    const output = document.getElementById('output');
+
+    function typeWriter(text, i=0) {
+      if (i < text.length) {
+        output.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1), 30);
+      }
+    }
+
+    function displayResponse(text) {
+      output.innerHTML = '';
+      typeWriter(text);
+    }
+
+    send.onclick = async () => {
+      let question = input.value.trim();
+      if (!question) return;
+      output.innerHTML = '<em>Thinking...</em>';
+      try {
+        let res = await fetch('/chat', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ question })
+        });
+        let data = await res.json();
+        displayResponse(data.answer || 'Sorry, I don\'t know the answer.');
+      } catch (e) {
+        displayResponse('Error connecting to chatbot.');
+      }
+    };
+
+    input.addEventListener('keypress', e => {
+      if (e.key === 'Enter') send.click();
+    });
+  </script>
+</body>
+</html>
