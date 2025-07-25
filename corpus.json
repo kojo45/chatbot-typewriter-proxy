@@ -1,0 +1,7 @@
+{
+  "questions": [
+    {"q": "What is your name?", "a": "I'm your friendly chatbot."},
+    {"q": "How are you?", "a": "I'm doing great, thank you!"},
+    {"q": "What can you do?", "a": "I can answer questions from my corpus."}
+  ]
+}
