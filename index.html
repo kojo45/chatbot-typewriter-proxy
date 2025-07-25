@@ -41,7 +41,7 @@
       output.innerHTML = '<em>Thinking...</em>';
       try {
         let res = await fetch('
-https://chatbot-typewriter-proxy.vercel.app/api/chat', {
+https://api/chat', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({ question })
